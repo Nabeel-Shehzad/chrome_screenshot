@@ -68,7 +68,6 @@ class FloatingScreenshotButton {
     this.button.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
     this.button.style.right = 'auto';
   }
-
   handleMouseUp = () => {
     document.removeEventListener('mousemove', this.handleMouseMove);
     document.removeEventListener('mouseup', this.handleMouseUp);
@@ -77,10 +76,20 @@ class FloatingScreenshotButton {
     setTimeout(() => {
       this.isDragging = false;
     }, 100);
-  }
+  };
+  
   async takeScreenshot() {
     try {
       console.log('Taking screenshot...');
+      
+      // Visual feedback on button
+      const originalText = this.button.innerHTML;
+      const originalBackground = this.button.style.background;
+      
+      this.button.innerHTML = '📸 Taking...';
+      this.button.style.background = 'linear-gradient(135deg, #FFA726, #FF9800)';
+      this.button.style.pointerEvents = 'none';
+      
       this.showNotification('Taking screenshot...', 'info');
       
       // Send message to background script to capture screenshot
@@ -89,15 +98,36 @@ class FloatingScreenshotButton {
       console.log('Screenshot response:', response);
       
       if (response && response.success) {
-        this.showNotification('Screenshot saved to Downloads folder!', 'success');
+        this.button.innerHTML = '✅';
+        this.button.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+        this.showNotification('Screenshot saved to Downloads/screenshots folder!', 'success');
       } else {
         const errorMsg = response?.error || 'Unknown error occurred';
         console.error('Screenshot failed:', errorMsg);
+        this.button.innerHTML = '❌';
+        this.button.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
         this.showNotification('Failed to take screenshot: ' + errorMsg, 'error');
       }
+      
+      // Reset button after 2 seconds
+      setTimeout(() => {
+        this.button.innerHTML = originalText;
+        this.button.style.background = originalBackground;
+        this.button.style.pointerEvents = 'auto';
+      }, 2000);
+      
     } catch (error) {
       console.error('Screenshot error:', error);
+      this.button.innerHTML = '❌';
+      this.button.style.background = 'linear-gradient(135deg, #f44336, #d32f2f)';
       this.showNotification('Failed to take screenshot: ' + error.message, 'error');
+      
+      // Reset button after 3 seconds on error
+      setTimeout(() => {
+        this.button.innerHTML = '📸';
+        this.button.style.background = '';
+        this.button.style.pointerEvents = 'auto';
+      }, 3000);
     }
   }
 

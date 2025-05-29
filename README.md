@@ -6,7 +6,7 @@ A Chrome extension that adds a floating, draggable button to take screenshots of
 
 - 📸 **Floating Screenshot Button**: A beautiful, draggable button that appears on all web pages
 - 🖱️ **Drag and Drop**: Move the button anywhere on the screen
-- 💾 **Auto-Save**: Screenshots are automatically saved to your Downloads folder
+- 💾 **Auto-Save**: Screenshots are automatically saved to your Downloads/screenshots folder
 - 🎨 **Beautiful UI**: Modern gradient design with smooth animations
 - 📱 **Cross-Site**: Works on any website
 
@@ -22,7 +22,7 @@ A Chrome extension that adds a floating, draggable button to take screenshots of
 1. After installation, you'll see a floating 📸 button on all web pages
 2. **To take a screenshot**: Click the button
 3. **To move the button**: Drag it to any position on the screen
-4. Screenshots are automatically saved to your Downloads folder with timestamp
+4. Screenshots are automatically saved to your Downloads/screenshots folder with timestamp
 
 ## Files Structure
 
@@ -36,7 +36,7 @@ A Chrome extension that adds a floating, draggable button to take screenshots of
 ## Permissions
 
 - `activeTab` - To capture screenshots of the current tab
-- `downloads` - To save screenshots to Downloads folder
+- `downloads` - To save screenshots to Downloads/screenshots folder
 - `storage` - To store user preferences
 
 ## Browser Compatibility
