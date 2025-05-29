@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Screenshot Capture",
+  "version": "1.0",
+  "description": "Take screenshots with a floating button",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "scripting",
+    "downloads",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Screenshot Capture"
+  },
+  "icons": {
+    "16": "icons/screenshot16.png",
+    "48": "icons/screenshot48.png",
+    "128": "icons/screenshot128.png"
+  }
+}

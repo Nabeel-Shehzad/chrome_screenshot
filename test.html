@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screenshot Extension Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .test-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .debug-info {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📸 Screenshot Extension Test Page</h1>
+        
+        <div class="test-content">
+            <h2>Test Your Screenshot Extension</h2>
+            <p>This page is designed to test your Chrome screenshot extension.</p>
+            <p>Look for the floating 📸 button and try taking a screenshot!</p>
+        </div>
+
+        <div class="debug-info">
+            <h3>Debug Information:</h3>
+            <div id="debug-output">
+                <p>Extension Status: <span id="extension-status">Checking...</span></p>
+                <p>Page URL: <span id="page-url"></span></p>
+                <p>User Agent: <span id="user-agent"></span></p>
+            </div>
+        </div>
+
+        <div class="test-content">
+            <button onclick="testExtension()">Test Extension Communication</button>
+            <button onclick="checkPermissions()">Check Permissions</button>
+            <button onclick="clearDebug()">Clear Debug Log</button>
+        </div>
+
+        <div class="debug-info">
+            <h3>Console Output:</h3>
+            <div id="console-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // Log console messages to the page
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleOutput = document.getElementById('console-output');
+
+        function addToConsole(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const div = document.createElement('div');
+            div.style.color = type === 'error' ? '#ff6b6b' : '#4ecdc4';
+            div.style.margin = '5px 0';
+            div.textContent = `[${timestamp}] ${type.toUpperCase()}: ${message}`;
+            consoleOutput.appendChild(div);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.join(' '), 'error');
+        };
+
+        // Initialize page info
+        document.getElementById('page-url').textContent = window.location.href;
+        document.getElementById('user-agent').textContent = navigator.userAgent;
+
+        // Check if extension is loaded
+        function checkExtensionStatus() {
+            if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.sendMessage) {
+                document.getElementById('extension-status').textContent = 'Chrome APIs Available';
+                document.getElementById('extension-status').style.color = '#4CAF50';
+            } else {
+                document.getElementById('extension-status').textContent = 'Chrome APIs Not Available';
+                document.getElementById('extension-status').style.color = '#f44336';
+            }
+        }
+
+        function testExtension() {
+            console.log('Testing extension communication...');
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                chrome.runtime.sendMessage({ action: 'test' }, (response) => {
+                    if (chrome.runtime.lastError) {
+                        console.error('Extension communication error:', chrome.runtime.lastError.message);
+                    } else {
+                        console.log('Extension responded:', response);
+                    }
+                });
+            } else {
+                console.error('Chrome runtime not available');
+            }
+        }
+
+        function checkPermissions() {
+            console.log('Checking extension permissions...');
+            if (typeof chrome !== 'undefined' && chrome.permissions) {
+                chrome.permissions.getAll((permissions) => {
+                    console.log('Current permissions:', permissions);
+                });
+            } else {
+                console.error('Chrome permissions API not available');
+            }
+        }
+
+        function clearDebug() {
+            consoleOutput.innerHTML = '';
+        }
+
+        // Check extension status on load
+        checkExtensionStatus();
+
+        // Check for floating button
+        setTimeout(() => {
+            const floatingButton = document.getElementById('floating-screenshot-btn');
+            if (floatingButton) {
+                console.log('✅ Floating screenshot button found!');
+            } else {
+                console.error('❌ Floating screenshot button not found');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
