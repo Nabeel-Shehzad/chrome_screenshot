@@ -24,10 +24,9 @@ class FloatingScreenshotButton {
     this.button.id = 'floating-screenshot-btn';
     this.button.innerHTML = '📸';
     this.button.title = 'Take Screenshot';
-    
-    // Set initial position (top-right corner)
+      // Set initial position (bottom-right corner)
     this.button.style.position = 'fixed';
-    this.button.style.top = '20px';
+    this.button.style.bottom = '20px';
     this.button.style.right = '20px';
     this.button.style.zIndex = '999999';
     
@@ -54,7 +53,6 @@ class FloatingScreenshotButton {
       e.preventDefault();
     });
   }
-
   handleMouseMove = (e) => {
     this.isDragging = true;
     const x = e.clientX - this.dragOffset.x;
@@ -67,6 +65,7 @@ class FloatingScreenshotButton {
     this.button.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
     this.button.style.top = Math.max(0, Math.min(y, maxY)) + 'px';
     this.button.style.right = 'auto';
+    this.button.style.bottom = 'auto';
   }
   handleMouseUp = () => {
     document.removeEventListener('mousemove', this.handleMouseMove);
