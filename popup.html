@@ -1,81 +1,148 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <style>
     body {
-      width: 250px;
+      width: 300px;
       padding: 20px;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
       margin: 0;
     }
-    
+
     .header {
       text-align: center;
       margin-bottom: 20px;
     }
-    
+
     .header h1 {
       margin: 0;
       font-size: 18px;
       font-weight: 600;
     }
-    
+
     .description {
       font-size: 14px;
       line-height: 1.5;
       margin-bottom: 20px;
       opacity: 0.9;
     }
-    
+
     .feature-list {
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin: 0 0 20px 0;
     }
-    
+
     .feature-list li {
       padding: 8px 0;
       font-size: 13px;
       display: flex;
       align-items: center;
     }
-    
+
     .feature-list li::before {
       content: "✓";
       margin-right: 8px;
       color: #4CAF50;
       font-weight: bold;
     }
-    
+
+    .save-location {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .save-location-label {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      opacity: 0.9;
+    }
+
+    .save-location-path {
+      font-size: 11px;
+      word-break: break-all;
+      line-height: 1.4;
+      font-family: 'Courier New', monospace;
+    }
+
+    .reset-btn {
+      width: 100%;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .reset-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .reset-btn:active {
+      transform: translateY(0);
+    }
+
     .footer {
       text-align: center;
       margin-top: 20px;
       font-size: 12px;
       opacity: 0.8;
     }
+
+    .message {
+      padding: 8px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      text-align: center;
+      background: rgba(76, 175, 80, 0.3);
+      display: none;
+    }
   </style>
 </head>
+
 <body>
   <div class="header">
     <h1>📸 Screenshot Capture</h1>
   </div>
-  
+
   <div class="description">
     A floating button is now active on all web pages. You can:
   </div>
-  
+
   <ul class="feature-list">
     <li>Click the floating button to take screenshots</li>
     <li>Drag the button to move it anywhere on screen</li>
-    <li>Screenshots are automatically saved to Downloads</li>
+    <li>Choose where to save on first use</li>
     <li>Works on any website</li>
   </ul>
-  
+
+  <div class="save-location">
+    <div class="save-location-label">Save Location:</div>
+    <div class="save-location-path" id="savePath">Loading...</div>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <button id="resetBtn" class="reset-btn">Change Save Location</button>
+
   <div class="footer">
     Look for the floating 📸 button on web pages!
   </div>
+
+  <script src="popup.js"></script>
 </body>
+
 </html>
